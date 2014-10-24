@@ -166,54 +166,43 @@ namespace lo_novo
                         NameToPlayer.Add(s, p);
         }
 
-        public static void Travel(Room destination)
+        public static void Travel(Type roomClass, bool instanced = false)
         {
             var prev = Player.Room;
             if (prev != null)
                 prev.Leave();
 
+            Thing.DebugCreationOk = true;
+
+            if (!AllSharedRooms.ContainsKey(roomClass))
+                AllSharedRooms.Add(roomClass, (Room) roomClass.GetConstructor(new Type[] { }).Invoke(null));
+
+            var destination = AllSharedRooms[roomClass];
+
             Player.Room = destination;
-            if (destination != null)
-                destination.Enter();
-        }
 
-        public static void Travel(Type roomClass, bool instanced = false)
-        {
-            // hmm...
-            if (!instanced)
+            destination.Enter();
+
+            // does Room have ambiguously named Things?
+            List<string> names = new List<string>();
+            foreach (var c in destination.AllContents)
             {
-                if (!AllSharedRooms.ContainsKey(roomClass))
-                    AllSharedRooms.Add(roomClass, (Room) roomClass.GetConstructor(new Type[] { }).Invoke(null));
+                if (names.Contains(c.Name))
+                    throw new Exception("Thing name '" + c + "' reused in room '" + destination.GetType().Name + "!");
+                names.Add(c.Name);
+            }
 
-                Travel(AllSharedRooms[roomClass]);
-            }
-            else
-            {
-                Travel((Room) roomClass.GetConstructor(new Type[] { }).Invoke(null));
-            }
+            Thing.DebugCreationOk = false;
         }
-
-        public static void TravelAll(Room destination)
+            
+        public static void TravelAll(Type roomClass)
         {
             var old = State.Player;
             State.TravellingAll = true;
             foreach (var p in AllPlayers)
             {
                 State.Player = p;
-                Travel(destination);
-            }
-            State.TravellingAll = false;
-            State.Player = old;
-        }
-
-        public static void TravelAll(Type roomClass, bool instanced = false)
-        {
-            var old = State.Player;
-            State.TravellingAll = true;
-            foreach (var p in AllPlayers)
-            {
-                State.Player = p;
-                Travel(roomClass, instanced);
+                Travel(roomClass);
             }
             State.TravellingAll = false;
             State.Player = old;

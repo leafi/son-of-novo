@@ -22,6 +22,8 @@ namespace lo_novo
 
         protected Dictionary<DefaultVerb, FunOrString> actions = new Dictionary<DefaultVerb, FunOrString>();
 
+        public static bool DebugCreationOk = false;
+
         /// <summary>
         /// Should we tell the user about this object when describing the room?
         /// </summary>
@@ -52,16 +54,21 @@ namespace lo_novo
             return actions.ContainsKey(verb) ? actions[verb] : null;
         }
 
-        public Thing(Room owner) { this.Owner = owner; }
+        public Thing(Room owner)
+        {
+            if (!DebugCreationOk)
+                throw new Exception("Thing creation is not acceptable at this point. Create in Room ctor; .Enter() at latest...");
+
+            this.Owner = owner;
+            this.Owner.AllContents.Add(this);
+        }
 
         public Thing(Room owner, string name, string description = null,
             FunOrString activate = null, FunOrString attack = null,
             FunOrString pushPull = null, FunOrString talk = null, FunOrString take = null, 
             FunOrString punt = null, FunOrString stop = null, FunOrString openClose = null, 
-            FunOrString climbDescend = null, FunOrString modify = null)
+            FunOrString climbDescend = null, FunOrString modify = null) : this(owner)
         {
-            this.Owner = owner;
-            this.Owner.AllContents.Add(this);
             this.Name = name;
             this.Description = description;
 
