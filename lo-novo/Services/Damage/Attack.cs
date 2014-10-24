@@ -29,16 +29,16 @@ namespace lo_novo.Damage
             {
                 var s = new List<string>();
                 foreach (var at in Enum.GetValues(typeof(AttackType)))
-                    if (i.AttackType.HasFlag((AttackType)at) && (AttackType)at != AttackType.None)
+                    if (((i.AttackType & (AttackType)at) == (AttackType)at) && (AttackType)at != AttackType.None)
                         s.Add(((AttackType)at).ToString());
 
                 if (s.Count == 1)
                     State.o(s[0] + "ing doesn't seem appropriate here.");
                 else
-                    State.o("Neither " + string.Join(" nor ", s) + " seems appropriate here.");
+                    State.o("Neither " + string.Join(" nor ", s.ToArray()) + " seems appropriate here.");
                     
                 // If high SkillWrestling, then try do manhandle
-                if (trait[Traits.WeaponWrestling] >= 5 && valid.HasFlag(AttackType.Manhandle))
+                if (trait[Traits.WeaponWrestling] >= 5 && ((valid & AttackType.Manhandle) == AttackType.Manhandle))
                     atav = AttackType.Manhandle;
                 else
                 {

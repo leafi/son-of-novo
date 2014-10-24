@@ -17,7 +17,7 @@ namespace lo_novo
 
             for (int i = max; i > 0; i--)
                 for (int j = 0; j < max - i + 1; j++)
-                    yield return string.Join(" ", words.Skip(j).Take(i));
+                    yield return string.Join(" ", words.Skip(j).Take(i).ToArray());
         }
 
         public static IEnumerable<string> PermuteWith(this IEnumerable<string> first, IEnumerable<string> second)

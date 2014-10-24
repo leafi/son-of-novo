@@ -2,10 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace lo_novo
 {
+    // mono doesn't support .net 4.0. this both sucks and blows!
+    public class Tuple<T, U>
+    {
+        public T Item1;
+        public U Item2;
+
+        public Tuple(T t, U u) { Item1 = t; Item2 = u; }
+    }
+
+    public class Tuple<T, U, V>
+    {
+        public T Item1;
+        public U Item2;
+        public V Item3;
+
+        public Tuple(T t, U u, V v) { Item1 = t; Item2 = u; Item3 = v; }
+    }
+
     public abstract class Room : IHandleDispatch, ITick, INoun
     {
         public string Name = null;
@@ -45,7 +62,7 @@ namespace lo_novo
             if (direction == Direction.None)
                 throw new ArgumentException("Can't add exit with null direction without any aliases.");
 
-            Exits.Add(Tuple.Create(Enum.GetName(typeof(Direction), direction).ToLowerInvariant(), destination));
+            Exits.Add(new Tuple<string, Type>(Enum.GetName(typeof(Direction), direction).ToLowerInvariant(), destination));
             ExitCanonicalNames.Add(Enum.GetName(typeof(Direction), direction).ToUpper());
         }
 
@@ -58,7 +75,7 @@ namespace lo_novo
             var ar = new string[] { dn }.Union(aliasesRegex);
 
             foreach (var r in ar)
-                Exits.Add(Tuple.Create(r.ToLowerInvariant(), destination));
+                Exits.Add(new Tuple<string, Type>(r.ToLowerInvariant(), destination));
             ExitCanonicalNames.Add(dn.ToUpper());
         }
 
@@ -71,7 +88,7 @@ namespace lo_novo
             var ar = add.Union(aliasesRegex);
 
             foreach (var r in ar)
-                Exits.Add(Tuple.Create(r.ToLowerInvariant(), destination));
+                Exits.Add(new Tuple<string, Type>(r.ToLowerInvariant(), destination));
             ExitCanonicalNames.Add(canonicalName.ToUpper());
         }
 
@@ -125,12 +142,12 @@ namespace lo_novo
                 }
 
             if (noQuickDesc.Count > 0)
-                lines.Add("Additionally, there's " + string.Join(", ", noQuickDesc) + ".");
+                lines.Add("Additionally, there's " + string.Join(", ", noQuickDesc.ToArray()) + ".");
 
             if (Exits.Count > 0)
-                lines.Add("Exits lie to the " + string.Join(", ", ExitCanonicalNames) + ".");
+                lines.Add("Exits lie to the " + string.Join(", ", ExitCanonicalNames.ToArray()) + ".");
 
-            return string.Join("\n", lines);
+            return string.Join("\n", lines.ToArray());
         }
 
         public virtual void Enter()

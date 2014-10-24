@@ -266,7 +266,7 @@ namespace lo_novo
             }
 
             // 5. We should have at least a verb now. Discard verb from search *STRING*.
-            s = string.Join(" ", sbits);
+            s = string.Join(" ", sbits.ToArray());
             s = s.Substring(0, s.IndexOf(eaten)) + " " + s.Substring(s.IndexOf(eaten) + eaten.Length).Replace("  ", " ").Trim();
 
             // 6. are we searching for the active or the passive noun?

@@ -21,7 +21,11 @@ namespace lo_novo
 
             State.Ticking.Add(ses);
 
+            var op = State.Player;
+            State.Player = p;
             State.Travel(typeof(LabRaid.WestMaintenance));
+            State.Player = op;
+
 
             return ses;
         }

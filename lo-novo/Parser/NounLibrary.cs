@@ -13,7 +13,7 @@ namespace lo_novo
         public static IEnumerable<Tuple<string, INoun>> Build()
         {
             var list = new List<Tuple<string, INoun>>();
-            Action<string, INoun> tu = (s, n) => list.Add(Tuple.Create(s, n));
+            Action<string, INoun> tu = (s, n) => list.Add(new Tuple<string, INoun>(s, n));
 
             foreach (var c in State.Room.Contents)
             {
@@ -63,7 +63,7 @@ namespace lo_novo
             tu("room", State.Room);
 
             // ugh... fix up regexp :x
-            return list.ConvertAll((t) => Tuple.Create("^" + t.Item1.ToLowerInvariant() + "$", t.Item2));
+            return list.ConvertAll((t) => new Tuple<string, INoun>("^" + t.Item1.ToLowerInvariant() + "$", t.Item2));
         }
     }
 }
