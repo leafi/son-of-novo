@@ -12,7 +12,7 @@ namespace lo_novo.PommeDeTerre
 Safe but for the viewshield, you feel the warm light falling onto your skin. Tiny particles, visible for microls, walk between the strong rays coming from Big Ember.
 Your room is a mess, but the ancient and terrible dance of the universe continues.";
 
-            Contents.Add(new Thing("mess",
+            Contents.Add(new Thing(this, "mess",
                 description: "The mess is sprawling. You casually wonder how long it'll take before"
                 + " it realises its own power and moves to take over the entire universe and everything in it."
                 + "\nFrankly, it looks like it's about halfway there.",
@@ -29,11 +29,11 @@ You'd need a week's rations, proper climbing equipment and a guide native to the
             ));
             Find("mess").AliasesRegex.AddRange(new string[] { "messy room", "sprawling mess", "room mess" });
 
-            Contents.Add(new Thing("dusty glaze coat", "Something you made up.",
+            Contents.Add(new Thing(this, "dusty glaze coat", "Something you made up.",
                 take: "Ha-ha. It is to laugh. The coat (correctly) rejects your attempt as facetious."));
             Find("dusty glaze coat").AddAliases("coat", "dusty coat", "glazed coat");
 
-            Contents.Add(new Thing("light",
+            Contents.Add(new Thing(this, "light",
                 description: "Floating through the viewshield, it's warm and comforting. A real ray of sunshine.",
                 activate: "It is active on many parts of the spectrum, without your help.",
                 attack: "It passes through you, or the other way round.",

@@ -7,7 +7,7 @@ namespace lo_novo.PommeDeTerre
         public bool FlashbackEnabled = true;
         public bool FlashbackDone = false;
 
-        public SalesmanControlRoomThing()
+        public SalesmanControlRoomThing(Room owner) : base(owner)
         {
             Name = "salesman";
             AddAliases("(trusty )?rusty", "rusty's( trusty)?( slightly[ \\-]used)?( space ?mobile)?( emporium)?");

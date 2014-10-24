@@ -9,37 +9,30 @@ using System.Threading.Tasks;
 
 namespace lo_novo
 {
-    class Program
+    public class Program
     {
         //public const bool Safe = false;
 
-        static void Main(string[] args)
+
+        public static void StartMultiplayer(string[] args)
         {
-            // note: not actually using textmine for anything right now
-            /*Directory.SetCurrentDirectory("../../");
-            Debug.Assert(File.Exists("lo-novo.csproj"));
-            TextMine.Setup();*/
+            throw new NotImplementedException();
+        }
 
-            Console.WriteLine("Type 't' to play in terminal, 'i' to join irc channel.");
-            bool rb = false;
-            while (!rb)
-            {
-                rb = true;
-                switch (Console.ReadKey().KeyChar)
-                {
-                    case 't':
-                        ConsoleStateSetup.Setup();
-                        break;
+        public static LoopbackClient StartLoopbackAndJoin(string[] args)
+        {
+            return new LoopbackClient(CommsSetup.StartLoopback());
+        }
 
-                    case 'i':
-                        IRCStateSetup.Setup();
-                        break;
+        public static void JoinMultiplayer(string[] args)
+        {
+            throw new NotImplementedException();
+        }
 
-                    default:
-                        rb = false;
-                        break;
-                }
-            }
+
+        private static void Main(string[] args)
+        {
+            //IRCStateSetup.Setup();
 
             State.SystemMessage("Welcome, one and all. Let's start the game.\n");
 
@@ -79,7 +72,7 @@ namespace lo_novo
 
                     while (true)
                     {
-                        var s = p.IRC.TryRead();
+                        var s = p.Comms.TryRead();
                         if (s != null)
                             p.Room.Parse(s);
                         else

@@ -24,7 +24,7 @@ namespace lo_novo
         public void Parse(string input, string defaultResponse = "I don't know how to do that.")
         {
             if (!TryParse(input))
-                State.Player.IRC.Send("I don't know how to do that. (Expected form is 'verb (noun) ((with|at|to|...) noun).) Try typing 'help' for ideas." + ((debug != "") ? "\n{{" + debug + "}}" : ""));
+                State.Player.Comms.Send("I don't know how to do that. (Expected form is 'verb (noun) ((with|at|to|...) noun).) Try typing 'help' for ideas." + ((debug != "") ? "\n{{" + debug + "}}" : ""));
         }
 
         public bool TryParse(string input)
@@ -451,7 +451,7 @@ namespace lo_novo
                     intent.ActiveNounString = intent.PassiveNounString;
                     intent.PassiveNoun = null;
                     intent.PassiveNounString = "";
-                    State.Player.IRC.Send("{{dubious relationship hack}}");
+                    State.Player.Comms.Send("{{dubious relationship hack}}");
                 }
 
             }

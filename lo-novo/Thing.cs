@@ -18,6 +18,8 @@ namespace lo_novo
         public bool Heavy = true;
         public bool CanTake = false;
 
+        public Room Owner { get; private set; }
+
         protected Dictionary<DefaultVerb, FunOrString> actions = new Dictionary<DefaultVerb, FunOrString>();
 
         /// <summary>
@@ -50,14 +52,16 @@ namespace lo_novo
             return actions.ContainsKey(verb) ? actions[verb] : null;
         }
 
-        public Thing() { }
+        public Thing(Room owner) { this.Owner = owner; }
 
-        public Thing(string name, string description = null,
+        public Thing(Room owner, string name, string description = null,
             FunOrString activate = null, FunOrString attack = null,
             FunOrString pushPull = null, FunOrString talk = null, FunOrString take = null, 
             FunOrString punt = null, FunOrString stop = null, FunOrString openClose = null, 
             FunOrString climbDescend = null, FunOrString modify = null)
         {
+            this.Owner = owner;
+            this.Owner.AllContents.Add(this);
             this.Name = name;
             this.Description = description;
 

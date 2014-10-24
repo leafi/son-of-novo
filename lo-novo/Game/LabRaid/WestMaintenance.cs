@@ -10,14 +10,14 @@ namespace lo_novo.LabRaid
         {
             public bool Cut = false;
 
-            public Wire(string colour) : base(colour + " wire")
+            public Wire(Room owner, string colour) : base(owner, colour + " wire")
             {
             }
         }
 
         public class Pliers : Thing
         {
-            public Pliers()
+            public Pliers(Room owner) : base(owner)
             {
                 Name = "pliers";
             }
@@ -66,12 +66,12 @@ namespace lo_novo.LabRaid
         {   
             Name = "Maintenance Cupboard (W)";
 
-            var t1 = new Thing("low ceiling", "An exceedingly low ceiling, for such a spacious spacious-ship.");
+            var t1 = new Thing(this, "low ceiling", "An exceedingly low ceiling, for such a spacious spacious-ship.");
             t1.Set(DefaultVerb.Push, "Raise the roof!");
             t1.Announce = false;
             Contents.Add(t1);
 
-            OxygenControls = new Thing("oxygen supply control", 
+            OxygenControls = new Thing(this, "oxygen supply control", 
                 @"This looks like it controls the oxygen supply for the entire ship! It's currently at 100%.
                 The dial seems far too tempting.", 
                 take: "You'd take away all oxygen on ship?! You monster!", // or "That's just greedy." <- mebbeh too confusing tho
@@ -85,20 +85,20 @@ namespace lo_novo.LabRaid
 
             // NOT added unless party fucks up the cables
             var fireAdded = false;
-            var fire = new Thing("small but growing fire",
+            var fire = new Thing(this, "small but growing fire",
                            @"A worrying fire near the power controls. Is this what they call an electrical fire?
 It's spreading slowly towards the safe."
                        );
 
 
-            var redWire = new Wire("red");
-            var blueWire = new Wire("blue");
-            var purpleWire = new Wire("purple");
-            var mauveWire = new Wire("mauve");
-            var burgundyWire = new Wire("burgundy");
+            var redWire = new Wire(this, "red");
+            var blueWire = new Wire(this, "blue");
+            var purpleWire = new Wire(this, "purple");
+            var mauveWire = new Wire(this, "mauve");
+            var burgundyWire = new Wire(this, "burgundy");
             Contents.AddRange(new Wire[] { redWire, blueWire, purpleWire, mauveWire, burgundyWire });
 
-            var cables = new Thing("electricity cables",
+            var cables = new Thing(this, "electricity cables",
                              @"Wires, frayed and rusted, run from the ceiling to the floor. Red, blue, purple and mauve.
 What's a humble space explorer to do?",
                              take: @"Yeah, of course, take the LIVE WIRES. That'll end well.
@@ -227,11 +227,11 @@ A series of clanks and gutteral noises demonstrate the system's reinvigoration, 
 
             // when you have code for managing Things, everything looks like a Thing. likewise for lambdas...
 
-            Contents.Add(new Thing("extremely useful looking safe" // but it's LOCKED! OMGZ.
+            Contents.Add(new Thing(this, "extremely useful looking safe" // but it's LOCKED! OMGZ.
             ));
 
 
-            Contents.Add(new Thing("humour gas controls" // haha
+            Contents.Add(new Thing(this, "humour gas controls" // haha
             ));
             AddExit(Direction.East, typeof(WestCorridorS), "corridor");
         }

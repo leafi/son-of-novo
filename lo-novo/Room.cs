@@ -11,6 +11,8 @@ namespace lo_novo
         public string Name = null;
         public string Description = null;
         public virtual string[] Tags { get { return new string[] { }; } }
+
+        internal List<Thing> AllContents = new List<Thing>();
         public List<Thing> Contents = new List<Thing>();
 
         protected RoomParser parser;

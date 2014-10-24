@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{1ABBDB0B-F49F-4650-8167-878B0B598A2C}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>lo_novo</RootNamespace>
     <AssemblyName>lo-novo</AssemblyName>
@@ -42,8 +42,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Communications\ConsoleIRC.cs" />
-    <Compile Include="Communications\IIRC.cs" />
     <Compile Include="Game\LabRaid\LabRaidState.cs" />
     <Compile Include="Game\LabRaid\ShitGym.cs" />
     <Compile Include="ITick.cs" />
@@ -54,8 +52,6 @@
     <Compile Include="Room.cs" />
     <Compile Include="State.cs" />
     <Compile Include="Thing.cs" />
-    <Compile Include="Communications\ConsoleStateSetup.cs" />
-    <Compile Include="Communications\IRCStateSetup.cs" />
     <Compile Include="Parser\Intention.cs" />
     <Compile Include="Parser\RoomParser.cs" />
     <Compile Include="Parser\DefaultVerb.cs" />
@@ -68,7 +64,6 @@
     <Compile Include="Game\PommeDeTerre\EmergencyLights.cs" />
     <Compile Include="Conversation.cs" />
     <Compile Include="Game\PommeDeTerre\SalesmanFlashback.cs" />
-    <Compile Include="Communications\IRCSession.cs" />
     <Compile Include="NPC.cs" />
     <Compile Include="Services\Clutter\TerrainClutter.cs" />
     <Compile Include="Services\Adlib.cs" />
@@ -100,6 +95,11 @@
     <Compile Include="Services\Damage\IDamageModel.cs" />
     <Compile Include="Services\Damage\Attack.cs" />
     <Compile Include="Services\Damage\AttackType.cs" />
+    <Compile Include="UnityCommunications\IComms.cs" />
+    <Compile Include="UnityCommunications\LoopbackServerSession.cs" />
+    <Compile Include="UnityCommunications\CommsSetup.cs" />
+    <Compile Include="UnityCommunications\MultiplayerServerSession.cs" />
+    <Compile Include="UnityCommunications\LoopbackClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -113,6 +113,9 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="AfterBuild">
+    <Copy SourceFiles="$(TargetDir)lo-novo.dll" DestinationFolder="$(ProjectDir)..\Assets" />
+  </Target>
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>
@@ -124,12 +127,7 @@
   </ProjectExtensions>
   <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="ircdotnet-0.4.1-src\src\IrcDotNet\IrcDotNet.csproj">
-      <Project>{47D551DA-96ED-4EF6-96BF-4832059D4700}</Project>
-      <Name>IrcDotNet</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Services\Damage\" />
+    <Folder Include="UnityCommunications\" />
   </ItemGroup>
 </Project>

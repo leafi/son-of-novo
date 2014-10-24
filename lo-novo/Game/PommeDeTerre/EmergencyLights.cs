@@ -4,7 +4,7 @@ namespace lo_novo.PommeDeTerre
 {
     public class EmergencyLights : Thing
     {
-        public EmergencyLights()
+        public EmergencyLights(Room owner) : base(owner)
         {
             Name = "emergency lights";
         }
