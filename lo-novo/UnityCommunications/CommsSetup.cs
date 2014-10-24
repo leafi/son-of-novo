@@ -21,6 +21,8 @@ namespace lo_novo
 
             State.Ticking.Add(ses);
 
+            State.Travel(typeof(LabRaid.WestMaintenance));
+
             return ses;
         }
 
