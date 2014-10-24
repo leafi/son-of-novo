@@ -142,7 +142,9 @@ namespace lo_novo
 
         public static void fx(object dispatch, string cmd)
         {
-            if (dispatch is Room)
+            if (dispatch == null)
+                State.GlobalComms.Send("! " + cmd);
+            else if (dispatch is Room)
                 State.GlobalComms.Send("!R " + (dispatch as Room).GetType().Name + " " + cmd);
             else if (dispatch is Thing)
                 State.GlobalComms.Send("!T " + (dispatch as Thing).Owner.GetType().Name + " "
