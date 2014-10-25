@@ -12,6 +12,9 @@ namespace lo_novo
     {
         //public const bool Safe = false;
 
+        public static bool Running = false;
+        public static LoopbackClient LoopbackClient = null;
+
 
         public static void StartMultiplayer(string[] args)
         {
@@ -20,7 +23,10 @@ namespace lo_novo
 
         public static LoopbackClient StartLoopbackAndJoin(string[] args)
         {
-            return new LoopbackClient(CommsSetup.StartLoopback());
+            var lc = new LoopbackClient(CommsSetup.StartLoopback());
+            ForkMain(args);
+            LoopbackClient = lc; // unity editor leaves our thread running when going Play->Stop game state
+            return lc;
         }
 
         public static void JoinMultiplayer(string[] args)
@@ -28,8 +34,21 @@ namespace lo_novo
             throw new NotImplementedException();
         }
 
+        public static void Stop()
+        {
+            Running = false;
+        }
 
-        private static void Main(string[] args)
+
+        private static void ForkMain(string[] args)
+        {
+            Running = true;
+            Thread t = new Thread(new ThreadStart(Main));
+            t.Start();
+        }
+
+
+        private static void Main(/*string[] args*/)
         {
             //IRCStateSetup.Setup();
 
@@ -39,14 +58,14 @@ namespace lo_novo
             foreach (var p in State.AllPlayers)
             {
                 State.Player = p;
-                State.Travel(typeof(Lobby));
+                State.Travel(typeof(LabRaid.WestMaintenance));
             }
 
 
             var toTick = new List<ITick>();
             var lastTime = DateTime.UtcNow;
 
-            while (true)
+            while (Running)
             {
                 toTick.Clear();
                 toTick.AddRange(State.Ticking);
