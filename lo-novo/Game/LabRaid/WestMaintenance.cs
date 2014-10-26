@@ -75,8 +75,8 @@ namespace lo_novo.LabRaid
                 @"This looks like it controls the oxygen supply for the entire ship! It's currently at 100%.
                 The dial seems far too tempting.", 
                 take: "You'd take away all oxygen on ship?! You monster!", // or "That's just greedy." <- mebbeh too confusing tho
-                activate: twistOxygenDial,
-                modify: twistOxygenDial,
+                activate: new FunOrString(twistOxygenDial),
+                modify: new FunOrString(twistOxygenDial),
                 pushPull: "It's a turny knob, not a pushy-pulley.",
                 talk: "I talk to the wind. But the wind cannot hear...",
                 punt: "That's a worrying noise..." // hahaha!
