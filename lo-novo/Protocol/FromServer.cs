@@ -4,6 +4,10 @@ namespace Protocol
 {
     public enum FromServerVerb
     {
+        GlobalCmdlet,
+        RoomCmdlet,
+        ThingCmdlet,
+        Text
     }
 
     public class FromServer
