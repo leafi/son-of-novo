@@ -98,11 +98,13 @@
     <Compile Include="Services\Damage\IDamageModel.cs" />
     <Compile Include="Services\Damage\Attack.cs" />
     <Compile Include="Services\Damage\AttackType.cs" />
-    <Compile Include="UnityCommunications\IComms.cs" />
-    <Compile Include="UnityCommunications\LoopbackServerSession.cs" />
-    <Compile Include="UnityCommunications\CommsSetup.cs" />
-    <Compile Include="UnityCommunications\MultiplayerServerSession.cs" />
-    <Compile Include="UnityCommunications\LoopbackClient.cs" />
+    <Compile Include="Protocol\IComms.cs" />
+    <Compile Include="Protocol\LoopbackServerSession.cs" />
+    <Compile Include="Protocol\CommsSetup.cs" />
+    <Compile Include="Protocol\MultiplayerServerSession.cs" />
+    <Compile Include="Protocol\LoopbackClient.cs" />
+    <Compile Include="Protocol\FromClient.cs" />
+    <Compile Include="Protocol\FromServer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -133,12 +135,6 @@
   <ItemGroup />
   <ItemGroup>
     <Folder Include="Services\Damage\" />
-    <Folder Include="UnityCommunications\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="Protocol\Protocol.csproj">
-      <Project>{6865633F-00FC-4B71-9B72-C69904CD9978}</Project>
-      <Name>Protocol</Name>
-    </ProjectReference>
+    <Folder Include="Protocol\" />
   </ItemGroup>
 </Project>

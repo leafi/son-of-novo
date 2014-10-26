@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Protocol
+namespace lo_novo.Protocol
 {
     public enum FromServerVerb
     {
@@ -10,11 +10,19 @@ namespace Protocol
         Text
     }
 
-    public class FromServer
+
+
+    public abstract class FromServer
     {
-        public FromServer()
+        public FromServer(string serialized)
         {
         }
+
+        public static FromServer RoomCmdlet(Room room, string cmdlet)
+        {
+        }
+
+
     }
 }
 

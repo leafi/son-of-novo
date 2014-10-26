@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Protocol
+namespace lo_novo.Protocol
 {
     public enum FromClientVerb
     {

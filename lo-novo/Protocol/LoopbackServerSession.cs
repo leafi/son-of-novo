@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lo_novo
+namespace lo_novo.Protocol
 {
     public class LoopbackServerSession : ITick
     {
