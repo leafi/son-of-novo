@@ -24,6 +24,19 @@ namespace lo_novo.Protocol
             return ses;
         }
 
+        public static void StartStupidServer()
+        {
+            var sms = new StupidMultiplayerServerSession();
+            State.GlobalComms = sms.Global;
+            var p = new Player();
+            p.Name = "Player";
+            p.Comms = sms.Player;
+            p.DefaultInventoryResponses = new DefaultInventoryResponses(p);
+            State.AllPlayers.Add(p);
+            State.RebuildNameToPlayer();
+            State.Ticking.Add(sms);
+        }
+
         // TODO: args? (bind ip, port)
         public static void StartMultiplayer()
         {

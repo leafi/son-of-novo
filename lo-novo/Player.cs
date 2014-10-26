@@ -50,7 +50,7 @@ namespace lo_novo
     {
         public string Name;
         public List<string> Aliases = new List<string>();
-        public IComms Comms;
+        public Protocol.IComms Comms;
         public Room Room;
         public List<Thing> Inventory = new List<Thing>();
         public DefaultInventoryResponses DefaultInventoryResponses;

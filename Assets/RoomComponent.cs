@@ -1,19 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
+using lo_novo.Protocol;
 
-[ExecuteInEditMode]
-public class RoomComponent : MonoBehaviour {
+public class RoomComponent : MonoBehaviour
+{
 
     private string oldName;
     public string RoomName;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
 
-	}
+    }
 	
-	// Update is called once per frame
-	void Update () {
+    // Update is called once per frame
+    void Update()
+    {
 
         //
         // TODO: make Room creation wizard.
@@ -23,10 +26,13 @@ public class RoomComponent : MonoBehaviour {
         // This component should also not ExecuteInEditMode.
         //
 
+        if (!LoNovo.Ready)
+            return;
+
         if (oldName != RoomName)
         {
             oldName = RoomName;
-            LoNovo.Comms.Send("?R " + oldName);
+            LoNovo.Comms.Send(FromClient.QueryRoomContents(oldName));
         }
-	}
+    }
 }

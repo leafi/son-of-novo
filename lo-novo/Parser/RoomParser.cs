@@ -21,33 +21,10 @@ namespace lo_novo
 
         public RoomParser(Room r) { room = r; }
 
-        public bool UnityParse(string input)
-        {
-            var bits = input.Split(' ');
-
-            switch (bits[0])
-            {
-                case "?R":
-                    // XXX: THIS IS GARBAGE
-                    var pr = State.Room;
-                    var t = Type.GetType("lo_novo.LabRaid." + bits[1]);
-                    if (t != null)
-                    {
-                        State.Travel(t);
-                        State.fx(State.Room, "setContents " + string.Join(" ", State.Room.AllContents.ConvertAll<string>((th) => th.Name.Replace(" ", "_")).ToArray()));
-                        State.Travel(pr.GetType());
-                    }
-                    return true;
-            }
-
-            return false;
-        }
-
         public void Parse(string input, string defaultResponse = "I don't know how to do that.")
         {
-            if (!UnityParse(input))
-                if (!TryParse(input))
-                    State.Player.Comms.Send("I don't know how to do that. (Expected form is 'verb (noun) ((with|at|to|...) noun).) Try typing 'help' for ideas." + ((debug != "") ? "\n{{" + debug + "}}" : ""));
+            if (!TryParse(input))
+                State.dbg("(your msg: " + input + ")\nI don't know how to do that. (Expected form is 'verb (noun) ((with|at|to|...) noun).) Try typing 'help' for ideas." + ((debug != "") ? "\n{{" + debug + "}}" : ""));
         }
 
         public bool TryParse(string input)
@@ -474,7 +451,7 @@ namespace lo_novo
                     intent.ActiveNounString = intent.PassiveNounString;
                     intent.PassiveNoun = null;
                     intent.PassiveNounString = "";
-                    State.Player.Comms.Send("{{dubious relationship hack}}");
+                    State.dbg("{{dubious relationship hack}}");
                 }
 
             }

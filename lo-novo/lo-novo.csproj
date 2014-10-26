@@ -11,8 +11,6 @@
     <AssemblyName>lo-novo</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -105,6 +103,9 @@
     <Compile Include="Protocol\LoopbackClient.cs" />
     <Compile Include="Protocol\FromClient.cs" />
     <Compile Include="Protocol\FromServer.cs" />
+    <Compile Include="FromClientDispatch.cs" />
+    <Compile Include="Protocol\StupidMultiplayerServerSession.cs" />
+    <Compile Include="Protocol\StupidLoopbackClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

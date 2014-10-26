@@ -1,14 +1,16 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections.Generic;
 using lo_novo;
+using lo_novo.Protocol;
 
-[ExecuteInEditMode]
+//[ExecuteInEditMode]
 public class LoNovo : MonoBehaviour
 {
-	private LoopbackClient clientComms;
+	private StupidLoopbackClient clientComms;
 
     private static LoNovo lon = null;
-    public static LoopbackClient Comms
+    public static StupidLoopbackClient Comms
     {
         get
         {
@@ -18,36 +20,41 @@ public class LoNovo : MonoBehaviour
         }
     }
 
+    private static bool ready = false;
+    public static bool Ready { get { return ready; } }
+
 	// Use this for initialization
 	void Start()
 	{
-        if (!Program.Running)
-            clientComms = Program.StartLoopbackAndJoin(new string[] { });
-        else
-        {
-            Debug.Log("Found lo-novo thread. Re-joining session.");
-            clientComms = Program.LoopbackClient;
-        }
+        tryConnect();
 	}
+
+    private void tryConnect()
+    {
+        try
+        {
+            clientComms = new StupidLoopbackClient();
+            ready = true;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+            ready = false;
+        }
+    }
 
 	// Update is called once per frame
 	void Update()
 	{
-        while (true)
-        {
-            if (clientComms == null)
-            {
-                // We lost link to lo-novo in editor.
-                Debug.Log("XXX: relink");
-                clientComms = Program.StartLoopbackAndJoin(new string[] { });
-            }
+        if (!ready)
+            return;
 
-            var s = clientComms.TryRead();
+        var s = clientComms.TryRead();
 
-            if (s == null)
-                break;
+        if (s == null)
+            return;
 
-            Debug.Log(s);
-        }
+        Debug.Log(s);
+
 	}
 }

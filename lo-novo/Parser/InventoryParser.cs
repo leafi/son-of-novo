@@ -16,7 +16,7 @@ namespace lo_novo
                 case "inv":
                 case "inventory":
                 case "bag":
-                    State.Player.Comms.Send("Let's see what's in your bag... (TODO)");
+                    State.dbg("Let's see what's in your bag... (TODO)");
 
                     // ...
 

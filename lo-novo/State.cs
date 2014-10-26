@@ -15,7 +15,7 @@ namespace lo_novo
         public static Room Room { get { return Player.Room; } }
         public static Dictionary<string, Player> NameToPlayer = new Dictionary<string, Player>();
         public static List<Player> AllPlayers = new List<Player>();
-        public static IComms GlobalComms;
+        public static Protocol.IComms GlobalComms;
         public static List<ITick> Ticking = new List<ITick>();
 
         public static Random RNG = new Random();
@@ -98,7 +98,7 @@ namespace lo_novo
 
         public static void SystemMessage(string msg)
         {
-            GlobalComms.Send("SYSTEM: " + msg);
+            State.o("SYSTEM: " + msg);
         }
 
         public static IEnumerable<Room> GetOccupiedRooms()
@@ -136,22 +136,26 @@ namespace lo_novo
         /// <param name="output">Text to display to all players</param>
         public static void o(string output)
         {
-            State.GlobalComms.Send(output);
+            State.GlobalComms.Send(Protocol.FromServer.Text(output));
+        }
+
+        public static void dbg(string output)
+        {
+            State.GlobalComms.Send(Protocol.FromServer.Debug(output));
         }
 
         public static void fx(object dispatch, string cmd)
         {
             if (dispatch == null)
-                State.GlobalComms.Send("! " + cmd);
+                State.GlobalComms.Send(Protocol.FromServer.GlobalCmdlet(cmd));
             else if (dispatch is Room)
-                State.GlobalComms.Send("!R " + (dispatch as Room).GetType().Name + " " + cmd);
+                State.GlobalComms.Send(Protocol.FromServer.RoomCmdlet((dispatch as Room), cmd));
             else if (dispatch is Thing)
-                State.GlobalComms.Send("!T " + (dispatch as Thing).Owner.GetType().Name + " "
-                + (dispatch as Thing).Name + " " + cmd);
+                State.GlobalComms.Send(Protocol.FromServer.ThingCmdlet((dispatch as Thing), cmd));
             else
                 throw new NotImplementedException();
         }
-
+        
         public static void RebuildNameToPlayer()
         {
             NameToPlayer.Clear();

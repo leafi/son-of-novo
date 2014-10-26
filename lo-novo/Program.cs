@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using lo_novo.Protocol;
 
 namespace lo_novo
 {
@@ -29,6 +30,12 @@ namespace lo_novo
             return lc;
         }
 
+        public static void StartStupidMP(string[] args)
+        {
+            CommsSetup.StartStupidServer();
+            Main();
+        }
+
         public static void JoinMultiplayer(string[] args)
         {
             throw new NotImplementedException();
@@ -45,6 +52,7 @@ namespace lo_novo
             Running = true;
             Thread t = new Thread(new ThreadStart(Main));
             t.Start();
+            Thread.Sleep(1000);
         }
 
 
@@ -65,7 +73,7 @@ namespace lo_novo
             var toTick = new List<ITick>();
             var lastTime = DateTime.UtcNow;
 
-            while (Running)
+            while (true)
             {
                 toTick.Clear();
                 toTick.AddRange(State.Ticking);
@@ -92,13 +100,13 @@ namespace lo_novo
                     {
                         var s = p.Comms.TryRead();
                         if (s != null)
-                            p.Room.Parse(s);
+                            FromClient.ParseAndDispatch(s);
                         else
                             break;
                     }
                 }
 
-                Thread.Sleep(10);
+                Thread.Sleep(400);
             }
             
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace lo_novo.Protocol
 {
@@ -8,13 +9,19 @@ namespace lo_novo.Protocol
         public Queue<string> Inbox = new Queue<string>();
         public Queue<string> Outbox = new Queue<string>();
 
-        public GlobalComms Global;
-        public PlayerComms Player;
+        public IComms Global;
+        public IComms Player;
+
+        private StreamWriter DF;
 
         public LoopbackServerSession()
         {
-            Global = new GlobalComms(this);
+            //Global = new GlobalComms(this);
             Player = new PlayerComms(this);
+            Global = Player;
+
+            DF = new StreamWriter("c:\\users\\leaf\\desktop\\dbg.txt");
+            DF.AutoFlush = true;
         }
 
         public class GlobalComms : IComms
@@ -28,8 +35,8 @@ namespace lo_novo.Protocol
             public void Send(string s)
             {
                 lock (lss.Outbox)
-                    foreach (var line in s.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries))
-                        lss.Outbox.Enqueue(line);
+                    lss.Outbox.Enqueue(s);
+                lss.DF.WriteLine(s);
             }
         }
 
@@ -41,17 +48,21 @@ namespace lo_novo.Protocol
 
             public string TryRead()
             {
+                string s = null;
                 lock (lss.Inbox)
                     if (lss.Inbox.Count > 0)
-                        return lss.Inbox.Dequeue();
-                return null;
+                        s = lss.Inbox.Dequeue();
+                if (s != null)
+                    lss.DF.WriteLine("<<<" + s);
+
+                return s;
             }
 
             public void Send(string s)
             {
                 lock (lss.Outbox)
-                    foreach (var line in s.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries))
-                        lss.Outbox.Enqueue(line);
+                    lss.Outbox.Enqueue(s);
+                lss.DF.WriteLine(s);
             }
         }
 

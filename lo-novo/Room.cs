@@ -57,6 +57,17 @@ namespace lo_novo
             SouthWest
         }
 
+        private string className = null;
+        public string ClassName
+        {
+            get
+            { 
+                if (className == null)
+                    className = this.GetType().FullName;
+                return className;
+            }
+        }
+
         public void AddExit(Direction direction, Type destination)
         {
             if (direction == Direction.None)
